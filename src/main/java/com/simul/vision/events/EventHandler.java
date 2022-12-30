@@ -1,10 +1,17 @@
 package com.simul.vision.events;
 
+import com.simul.vision.utils.ListUtils;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+Event subscription is currently supported for one event type.
+Event types are separated for different applications, hence events from
+one application will not be listened for in another application.
+ */
 public class EventHandler {
 
     public static EventHandler instance;
@@ -23,9 +30,9 @@ public class EventHandler {
         this.subscriberMap = new LinkedHashMap<>();
     }
 
-    public void subscribe(EventSubscriber subscriber) {
+    public boolean subscribe(EventSubscriber subscriber) {
         if (subscriber == null) {
-            return;
+            return false;
         }
 
         Class<? extends AppEvent> classOfEvent = subscriber.getEventClass();
@@ -34,16 +41,30 @@ public class EventHandler {
         subscribers.add(subscriber);
 
         subscriberMap.put(classOfEvent, subscribers);
+        return true;
     }
 
-    public void fireEvent(AppEvent event) {
+    public boolean fireEvent(AppEvent event) {
         if (event == null) {
-            return;
+            return false;
         }
 
         List<EventSubscriber> subscribers = subscriberMap.get(event.getClass());
-        for (EventSubscriber subscriber : subscribers) {
-            subscriber.handleEvent(event);
+        if (ListUtils.isInValid(subscribers)) {
+            return false;
         }
+
+        boolean allSubscribersFired = true;
+        for (EventSubscriber subscriber : subscribers) {
+            try {
+                subscriber.handleEvent(event);
+            } catch (Exception e) {
+                System.out.println("Exception in event handling");
+                e.printStackTrace();
+                allSubscribersFired = false;
+            }
+        }
+
+        return allSubscribersFired;
     }
 }
