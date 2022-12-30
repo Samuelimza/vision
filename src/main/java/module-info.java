@@ -7,4 +7,6 @@ module com.simul.vision {
 
     opens com.simul.vision to javafx.fxml;
     exports com.simul.vision;
+    exports com.simul.vision.controllers;
+    opens com.simul.vision.controllers to javafx.fxml;
 }
