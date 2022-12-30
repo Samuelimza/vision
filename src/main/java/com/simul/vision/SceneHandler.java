@@ -1,5 +1,7 @@
 package com.simul.vision;
 
+import com.simul.vision.controllers.GravityController;
+import com.simul.vision.simulations.gravitysim.GravitySimulation;
 import com.simul.vision.utils.FileUtils;
 import com.simul.vision.utils.StoredResources;
 import javafx.fxml.FXMLLoader;
@@ -9,10 +11,13 @@ import java.io.IOException;
 
 public class SceneHandler {
 
-    public static Parent loadScene(String sceneSceneFx) {
+    public static <T> T loadScene(String sceneSceneFx) {
         FXMLLoader fxmlLoader = new FXMLLoader(FileUtils.getResourceUrl(sceneSceneFx));
         try {
-            return fxmlLoader.load();
+            Parent parent = fxmlLoader.load();
+            MainApp.getInstance().getScene().setRoot(parent);
+
+            return fxmlLoader.getController();
         } catch (IOException e) {
             System.out.println("Could not load scene: " + sceneSceneFx);
             e.printStackTrace();
@@ -22,21 +27,17 @@ public class SceneHandler {
     }
 
     public static void changeToMainScene() {
-        Parent parent = loadScene(StoredResources.MAIN_VIEW_FX);
-        if (parent == null) {
-            return;
-        }
-
-        MainApp.getInstance().getScene().setRoot(parent);
+        loadScene(StoredResources.MAIN_VIEW_FX);
     }
 
     public static void changeToGravityScene() {
-        Parent parent = loadScene(StoredResources.GRAVITY_VIEW_FX);
-        if (parent == null) {
+        GravityController controller = loadScene(StoredResources.GRAVITY_VIEW_FX);
+        if (controller == null) {
             return;
         }
 
-        MainApp.getInstance().getScene().setRoot(parent);
+        GravitySimulation simulation = new GravitySimulation(controller);
+        simulation.run();
     }
 
 }
