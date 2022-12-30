@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simul.vision.controllers.GravitySimController">
    <children>
-      <Canvas height="350.0" layoutX="10.0" layoutY="25.0" width="440.0" />
+      <Canvas fx:id="canvas" height="300.0" layoutX="50.0" layoutY="50.0" width="300.0" />
       <Button layoutX="535.0" layoutY="25.0" mnemonicParsing="false" onAction="#onExitClick" text="Exit" />
       <Button layoutX="532.0" layoutY="60.0" mnemonicParsing="false" onAction="#onStopClick" text="Stop" />
    </children>

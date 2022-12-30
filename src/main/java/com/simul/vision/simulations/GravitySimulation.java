@@ -4,19 +4,30 @@ import com.simul.vision.controllers.GravitySimController;
 import com.simul.vision.events.AppEvent;
 import com.simul.vision.events.EventHandler;
 import com.simul.vision.events.GravitySimEvent;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelWriter;
 
 public class GravitySimulation extends Simulation {
 
-    private boolean stopped = false;
+    private final GravitySimController controller;
+    private final int WIDTH;
+    private final int HEIGHT;
+
+    private int[] pixelsBuffer;
 
     public GravitySimulation(GravitySimController controller) {
-        super(controller);
+        this.controller = controller;
         EventHandler.getInstance().subscribe(this);
+
+        WIDTH = (int) controller.canvas.getWidth();
+        HEIGHT = (int) controller.canvas.getHeight();
+        setup();
     }
 
-    @Override
-    public void run() {
-        System.out.println("Started gravity simulation");
+    private void setup() {
+        pixelsBuffer = new int[WIDTH * HEIGHT];
     }
 
     @Override
@@ -27,7 +38,7 @@ public class GravitySimulation extends Simulation {
 
         switch (gravitySimEvent.getType()) {
             case STOP:
-                handleStop();
+                System.out.println("Stop received for Gravity sim");
                 break;
             default:
                 return;
@@ -39,9 +50,22 @@ public class GravitySimulation extends Simulation {
         return GravitySimEvent.class;
     }
 
-    private void handleStop() {
-        stopped = !stopped;
-        System.out.println("Sim stopped: " + stopped);
+    @Override
+    protected void update() {
+
+    }
+
+    @Override
+    protected void render() {
+        Canvas canvas = controller.canvas;
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        for (int i = 0; i < pixelsBuffer.length; i++) {
+            pixelsBuffer[i] = (i % 256) | ((i % 256) << 8) | ((i % 256) << 16) | (0xff << 24);
+        }
+
+        PixelWriter pixelWriter = gc.getPixelWriter();
+        pixelWriter.setPixels(0, 0, 300, 300, PixelFormat.getIntArgbInstance(), pixelsBuffer, 0, 300);
     }
 
 }
