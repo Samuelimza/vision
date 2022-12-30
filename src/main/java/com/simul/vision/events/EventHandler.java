@@ -1,4 +1,4 @@
-package com.simul.vision.event;
+package com.simul.vision.events;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

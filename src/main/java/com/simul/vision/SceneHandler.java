@@ -1,7 +1,8 @@
 package com.simul.vision;
 
-import com.simul.vision.controllers.GravityController;
-import com.simul.vision.simulations.gravitysim.GravitySimulation;
+import com.simul.vision.controllers.FxController;
+import com.simul.vision.controllers.GravitySimController;
+import com.simul.vision.simulations.GravitySimulation;
 import com.simul.vision.utils.FileUtils;
 import com.simul.vision.utils.StoredResources;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +12,7 @@ import java.io.IOException;
 
 public class SceneHandler {
 
-    public static <T> T loadScene(String sceneSceneFx) {
+    public static FxController loadScene(String sceneSceneFx) {
         FXMLLoader fxmlLoader = new FXMLLoader(FileUtils.getResourceUrl(sceneSceneFx));
         try {
             Parent parent = fxmlLoader.load();
@@ -31,12 +32,12 @@ public class SceneHandler {
     }
 
     public static void changeToGravityScene() {
-        GravityController controller = loadScene(StoredResources.GRAVITY_VIEW_FX);
-        if (controller == null) {
+        FxController controller = loadScene(StoredResources.GRAVITY_VIEW_FX);
+        if (!(controller instanceof GravitySimController gravitySimController)) {
             return;
         }
 
-        GravitySimulation simulation = new GravitySimulation(controller);
+        GravitySimulation simulation = new GravitySimulation(gravitySimController);
         simulation.run();
     }
 

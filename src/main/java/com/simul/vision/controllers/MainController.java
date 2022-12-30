@@ -4,7 +4,7 @@ import com.simul.vision.SceneHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class MainController {
+public class MainController implements FxController {
 
     @FXML
     private Label welcomeText;

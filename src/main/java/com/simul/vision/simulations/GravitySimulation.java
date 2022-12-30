@@ -1,15 +1,15 @@
-package com.simul.vision.simulations.gravitysim;
+package com.simul.vision.simulations;
 
-import com.simul.vision.controllers.GravityController;
-import com.simul.vision.event.AppEvent;
-import com.simul.vision.event.EventHandler;
-import com.simul.vision.simulations.Simulation;
+import com.simul.vision.controllers.GravitySimController;
+import com.simul.vision.events.AppEvent;
+import com.simul.vision.events.EventHandler;
+import com.simul.vision.events.GravitySimEvent;
 
-public class GravitySimulation extends Simulation<GravityController> {
+public class GravitySimulation extends Simulation {
 
     private boolean stopped = false;
 
-    public GravitySimulation(GravityController controller) {
+    public GravitySimulation(GravitySimController controller) {
         super(controller);
         EventHandler.getInstance().subscribe(this);
     }
@@ -21,11 +21,9 @@ public class GravitySimulation extends Simulation<GravityController> {
 
     @Override
     public void handleEvent(AppEvent event) {
-        if (!(event instanceof GravitySimEvent)) {
+        if (!(event instanceof GravitySimEvent gravitySimEvent)) {
             return;
         }
-
-        GravitySimEvent gravitySimEvent = (GravitySimEvent) event;
 
         switch (gravitySimEvent.getType()) {
             case STOP:

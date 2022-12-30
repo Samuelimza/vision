@@ -1,6 +1,6 @@
-package com.simul.vision.simulations.gravitysim;
+package com.simul.vision.events;
 
-import com.simul.vision.event.AppEvent;
+import com.simul.vision.events.enums.GravitySimEventType;
 
 public class GravitySimEvent implements AppEvent {
 
