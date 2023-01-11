@@ -8,6 +8,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
 public class GravitySimulation extends Simulation {
 
@@ -15,6 +17,7 @@ public class GravitySimulation extends Simulation {
     private final int WIDTH;
     private final int HEIGHT;
 
+    private int upsCounter = 0;
     private int[] pixelsBuffer;
 
     public GravitySimulation(GravitySimController controller) {
@@ -52,20 +55,24 @@ public class GravitySimulation extends Simulation {
 
     @Override
     protected void update() {
-
+        upsCounter++;
     }
 
     @Override
     protected void render() {
         Canvas canvas = controller.canvas;
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, WIDTH, HEIGHT);
 
-        for (int i = 0; i < pixelsBuffer.length; i++) {
-            pixelsBuffer[i] = (i % 256) | ((i % 256) << 8) | ((i % 256) << 16) | (0xff << 24);
-        }
-
-        PixelWriter pixelWriter = gc.getPixelWriter();
-        pixelWriter.setPixels(0, 0, 300, 300, PixelFormat.getIntArgbInstance(), pixelsBuffer, 0, 300);
+        gc.setFill(Color.BLUE);
+        gc.fillOval(upsCounter % 100, 60, 30, 30);
+//        for (int i = 0; i < pixelsBuffer.length; i++) {
+////            pixelsBuffer[i] = (i % 256) | ((i % 256) << 8) | ((i % 256) << 16) | (0xff << 24);
+//            pixelsBuffer[i] = 0;
+//        }
+//
+//        PixelWriter pixelWriter = gc.getPixelWriter();
+//        pixelWriter.setPixels(0, 0, WIDTH, HEIGHT, PixelFormat.getIntArgbInstance(), pixelsBuffer, 0, WIDTH);
     }
 
 }
