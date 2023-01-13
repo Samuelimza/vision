@@ -44,6 +44,7 @@ public class SceneHandler {
     public static void changeToGravityScene() {
         FxController controller = loadScene(StoredResources.GRAVITY_VIEW_FX);
         if (!(controller instanceof GravitySimController gravitySimController)) {
+            changeToMainScene();
             return;
         }
 

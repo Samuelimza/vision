@@ -1,11 +1,9 @@
 package com.simul.vision.controllers;
 
-import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 
-public abstract class SimController implements FxController {
+public interface SimController extends FxController{
 
-    @FXML
-    private Canvas canvas;
+    Canvas fetchCanvas();
 
 }

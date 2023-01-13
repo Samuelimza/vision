@@ -6,7 +6,7 @@ import com.simul.vision.events.GravitySimEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 
-public class GravitySimController implements FxController {
+public class GravitySimController implements SimController {
 
     @FXML
     public Canvas canvas;
@@ -21,4 +21,8 @@ public class GravitySimController implements FxController {
         EventHandler.getInstance().fireEvent(GravitySimEvent.STOP_EVENT);
     }
 
+    @Override
+    public Canvas fetchCanvas() {
+        return canvas;
+    }
 }

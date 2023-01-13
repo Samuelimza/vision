@@ -1,9 +1,15 @@
 package com.simul.vision.simulations;
 
 import com.simul.vision.RunnableTask;
-import com.simul.vision.controllers.FxController;
 import com.simul.vision.events.EventSubscriber;
 
+/*
+Design decision of a simulation:
+  -- Simulation start with a controller having a drawable canvas.
+  -- it creates a screen out of it.
+  -- Rendering inside the simulation is handled by the screen.
+  -- Fetching inputs is done directly from the controller.
+ */
 public abstract class Simulation implements RunnableTask, EventSubscriber {
 
     private boolean running = false;
