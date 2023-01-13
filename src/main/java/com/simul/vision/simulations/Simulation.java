@@ -25,9 +25,10 @@ public abstract class Simulation implements RunnableTask, EventSubscriber {
                 update();
                 updates++;
                 delta--;
+
+                render();
+                frames++;
             }
-            render();
-            frames++;
             if (System.currentTimeMillis() - timer > 1000) {
                 timer += 1000;
                 System.out.println(updates + " ups, " + frames + " fps");
